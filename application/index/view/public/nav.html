@@ -1,0 +1,59 @@
+<!-- 顶部导航 start -->
+<div class="topnav">
+		<div class="topnav_bd w1210 bc">
+			<div class="topnav_left">
+				
+			</div>
+			<div class="topnav_right fr">
+				<ul>
+                    <{empty name='$Think.session.index_info'}>
+                    <li>您好，欢迎来到京西！[<a href="javascript:;" id="login">登录</a>] [<a href="<{:url('index/user/register')}>">免费注册</a>] </li>
+                    <{else /}>
+                    <li><{$Think.session.index_info.username}>您好，欢迎来到京西！[<a href="<{:url('index/user/logout')}>">退出</a>] [<a href="<{:url('index/member/index')}>">用户中心</a>] </li>
+                    <{/empty}>
+                    <li class="line">|</li>
+					<li><a href="<{:url('index/order/index')}>">我的订单</a></li>
+					<li class="line">|</li>
+					<li><a href="javascript:;" id="sign">点击签到</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+    <!-- 顶部导航 end -->
+    <!-- 引入layer -->
+    <script src="__LAYER__layer.js"></script>
+	<script>
+        $(function(){
+            // 弹出登录
+            $('#login').click(function(){
+                layer.open({
+                    type: 2,
+                    scrollbar: false,
+                    title: '用户登录',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['450px', '400px'],
+                    content: '<{:url("index/user/login2")}>' //iframe的url
+                }); 
+            })
+
+
+
+
+            //签到
+            $('#sign').click(function(){
+                $.ajax({
+                    url:"<{:url('index/member/index')}>",
+                    type:'post',
+                    success:function(res){
+                        if(res.code==0){
+                            alert('ok');
+                        }else{
+                            alert(res.msg);
+                        }
+                    }
+                })
+
+            })
+        })
+    </script>

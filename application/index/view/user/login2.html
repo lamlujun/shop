@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>登录商城</title>
+	<link rel="stylesheet" href="__INDEX__style/base.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/global.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/header.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/login.css" type="text/css">
+    <link rel="stylesheet" href="__INDEX__style/footer.css" type="text/css">
+    <script src="__INDEX__js/jquery-1.8.3.min.js"></script>
+    <script src="__LAYER__layer.js"></script>
+</head>
+<body>
+	
+	
+
+	<!-- 登录主体部分start -->
+	<div class="login w990 bc mt10" style="width: 450px">
+			<div class="login_form fl">
+					<ul>
+						<li>
+							<label for="">用户名：</label>
+							<input type="text" class="txt" name="username" id="username" />
+						</li>
+						<li>
+							<label for="">密码：</label>
+							<input type="password" class="txt" name="password" id="password" />
+							<a href="">忘记密码?</a>
+						</li>
+						<li class="checkcode">
+							<label for="">验证码：</label>
+							<input type="text"  name="checkcode" id="checkcode" />
+							<img src="<{:url('index/user/captcha')}>" alt="" id="captcha"/>
+							<span>看不清？<a href="javascript:;" onclick="change()">换一张</a></span>
+                        </li>
+                        <script>
+                                function change(){
+                                    $("#captcha").attr("src","<{:url('index/user/captcha','1')}>")
+                                }
+                                $("#captcha").click(function(){
+                                    $(this).attr("src","<{:url('index/user/captcha','2')}>")
+                                })
+                        </script>
+						<li>
+							<label for="">&nbsp;</label>
+							<input type="submit" id='login2' value="" class="login_btn" />
+						</li>
+                    </ul>
+                    <script>
+                        // 发送ajax请求登录
+                        $(function(){
+                            $('#login2').click(function(){
+                                var data = {
+                                username:$('#username').val(),
+                                password:$('#password').val(),
+                                checkcode:$('#checkcode').val(),
+                                }
+                                $.ajax({
+                                    url:"<{:url('index/user/login2')}>",
+                                    type:'post',
+                                    data:data,
+                                    success:function(res){
+                                        // console.log(res)    
+                                        if(res.code==0){
+                                            layer.msg(res.msg);
+                                            return;
+                                        }
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                    parent.layer.close(index); //再执行关闭   
+                                    parent.location.reload();
+                                    }
+                                })
+                            })
+                            
+
+                        })
+                    </script>
+            </div>
+    </div>
+
+</body>
+</html>

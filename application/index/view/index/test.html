@@ -1,0 +1,60 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="checkbox" name="choose" value="1" id="choose">商品
+
+</body>
+</html>
+<script type="text/javascript" src="__INDEX__js/jquery-1.8.3.min.js"></script>
+<script>
+    $(function(){
+         
+        $("#choose").click(function(){
+            // console.log($(this).attr('checked'));
+            var check = $(this).attr('checked')? 1: 0;
+            console.log(check)
+            // var check;
+            // $.ajax({
+            // url:"<{:url('index/index/test')}>",
+            // type:'get',
+            // data:{
+            //     check : check
+            // },
+            //     success:function(res){
+                    
+            //     }
+            // })
+        })
+    })
+</script> -->
+
+
+
+添加字段   is_return 1是0否  
+
+添加status状态 4已收货,5退款中 
+
+根据支付状态  status 为4, 修改订单状态值为 已收货   显示退货退款连接
+
+用户点击申请退货退款 发送请求 status 为5, 修改订单状态值为 申请退款中,is_return的值修改为1
+
+后台根据 is_return 查询退款订单,同意 ,修改 status为 6 
+
+前台status为 6 用户订单页显示 同意退货退款,显示退货连接    点击退货,修改status为7
+
+后台 查询用户订单表
+status = 7 显示 用户退货中
+status = 8 显示确认
+
+确认操作, 根据 order_id 查询订单详情数据, 将商品数量还原,  计算订单总金额, 转化为积分,存入用户积分字段   记录积分日志表  修改status 为7 
+
+前台 status为7, 显示 已退款 
+
+
+

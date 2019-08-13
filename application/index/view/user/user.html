@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>用户中心</title>
+	<link rel="stylesheet" href="__INDEX__style/base.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/global.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/header.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/home.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/user.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/bottomnav.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/footer.css" type="text/css">
+    <script src="__LAYER__layer.js"></script>
+	<script type="text/javascript" src="__INDEX__js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="__INDEX__js/header.js"></script>
+	<script type="text/javascript" src="__INDEX__js/home.js"></script>
+</head>
+<body>
+		<!-- 顶部导航 start -->
+        <{include file="public/header" /}>
+	<div style="clear:both;"></div>
+
+	<!-- 页面主体 start -->
+	<div class="main w1210 bc mt10">
+		<div class="crumb w1210">
+			<h2><strong>我的XX </strong><span>> 账户信息</span></h2>
+		</div>
+		
+		<!-- 左侧导航菜单 start -->
+		<div class="menu fl">
+			<h3>我的XX</h3>
+			<div class="menu_wrap">
+				<dl>
+					<dt>订单中心 <b></b></dt>
+					<dd><b>.</b><a href="">我的订单</a></dd>
+					<dd><b>.</b><a href="">我的关注</a></dd>
+					<dd><b>.</b><a href="">浏览历史</a></dd>
+					<dd><b>.</b><a href="">我的团购</a></dd>
+				</dl>
+
+				<dl>
+					<dt>账户中心 <b></b></dt>
+					<dd class="cur"><b>.</b><a href="">账户信息</a></dd>
+					<dd><b>.</b><a href="">账户余额</a></dd>
+					<dd><b>.</b><a href="">消费记录</a></dd>
+					<dd><b>.</b><a href="">我的积分</a></dd>
+					<dd><b>.</b><a href="">收货地址</a></dd>
+				</dl>
+
+				<dl>
+					<dt>订单中心 <b></b></dt>
+					<dd><b>.</b><a href="">返修/退换货</a></dd>
+					<dd><b>.</b><a href="">取消订单记录</a></dd>
+					<dd><b>.</b><a href="">我的投诉</a></dd>
+				</dl>
+			</div>
+		</div>
+		<!-- 左侧导航菜单 end -->
+
+		<!-- 右侧内容区域 start -->
+		<div class="content fl ml10">
+			<div class="user_hd">
+				<h3>账户信息</h3>
+			</div>
+
+			<div class="user_bd mt10">
+				<form action="" id="myform" method="post" enctype="multipart/form-data">
+					<ul>
+                        <li>            
+                                        <{empty name='$head'}>
+                                        <img src="__INDEX__images/acer4739.jpg" alt="" width="80" id="head">
+                                        <{else /}>
+                                        <img src="/<{$head.user_thumb}>" alt="" id="head">
+                                        <{/empty}>
+                                Photo:  <input type="file" name="photo" id="up_photo"><br>
+                                        <img src="" style="display:none" id="img_thumb" width="150" height="180"><br>  <!-- //先隐藏，然后点击上传后会显示一张预览图，后有详细解释 -->
+                        </li>
+                        <style>
+                            #head{
+                                display:  block;
+                                border-radius: 50%;
+                            }
+                        </style>
+                        <script>
+
+                                $("#up_photo").on("change",function(){
+                                    //用html方式上传
+                                    //根据ID获得页面当中的form表单元素
+                                    var cont=new FormData(); //转换成DOM方法
+                                    cont.append('myFile',document.getElementById('up_photo').files[0]);
+                                    $.ajax({
+                                            url:"<{:url('index/user/userheader')}>",       //跳转至控制器
+                                            type:"POST",
+                                            data:cont,
+                                            dataType:"JSON",
+                                            cache:false,
+                                            processData:false ,
+                                            contentType:false,
+                                    success:function(res){
+                                        $('#img_thumb').show();
+                                        $('#img_thumb').attr('src',res);
+                                    },
+                                    });
+                                })
+                        </script>
+						<li>
+							<label for="">用户名：</label>
+							<strong><{$user.username}></strong>
+						</li>
+						<li>
+							<label for="">昵称：</label>
+							<input type="text" class="txt" name="nickname" value="<{$user.nickname}>"/>
+						</li>
+						<li>
+							<label for="">邮箱：</label>
+							<strong><{$user.email}></strong>
+						</li>
+						<li>
+							<label for="">手机号码：</label>
+							<strong><{$user.phone}></strong>
+						</li>
+						<li>
+							<label for="">&nbsp;</label>
+							<input type="submit" value="提交" class="sbtn" />
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<!-- 右侧内容区域 end -->
+	</div>
+	<!-- 页面主体 end-->
+
+	<div style="clear:both;"></div>
+
+	<!-- 底部导航 start -->
+	<{include file="public/footer" /}>
+	<!-- 底部版权 end -->
+</body>
+</html>
+
+<script>
+    
+</script>

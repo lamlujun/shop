@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>订单页面</title>
+	<link rel="stylesheet" href="__INDEX__style/base.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/global.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/header.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/home.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/order.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/bottomnav.css" type="text/css">
+	<link rel="stylesheet" href="__INDEX__style/footer.css" type="text/css">
+	<script type="text/javascript" src="__INDEX__js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="__INDEX__js/header.js"></script>
+    <script type="text/javascript" src="__INDEX__js/home.js"></script>
+    <script src="__LAYER__layer.js"></script>
+</head>
+<body>
+		<!-- 顶部导航 start -->
+	<{include file='public/header' /}>
+	
+	<div style="clear:both;"></div>
+
+	<!-- 页面主体 start -->
+	<div class="main w1210 bc mt10">
+		<div class="crumb w1210">
+			<h2><strong>我的XX </strong><span>> 我的订单</span></h2>
+		</div>
+		
+		<!-- 左侧导航菜单 start -->
+		<div class="menu fl">
+			<h3>我的XX</h3>
+			<div class="menu_wrap">
+				<dl>
+					<dt>订单中心 <b></b></dt>
+					<dd class="cur"><b>.</b><a href="">我的订单</a></dd>
+					<dd><b>.</b><a href="">我的关注</a></dd>
+					<dd><b>.</b><a href="">浏览历史</a></dd>
+					<dd><b>.</b><a href="">我的团购</a></dd>
+				</dl>
+
+				<dl>
+					<dt>账户中心 <b></b></dt>
+					<dd><b>.</b><a href="">账户信息</a></dd>
+					<dd><b>.</b><a href="">账户余额</a></dd>
+					<dd><b>.</b><a href="">消费记录</a></dd>
+					<dd><b>.</b><a href="">我的积分</a></dd>
+					<dd><b>.</b><a href="">收货地址</a></dd>
+				</dl>
+
+				<dl>
+					<dt>订单中心 <b></b></dt>
+					<dd><b>.</b><a href="">返修/退换货</a></dd>
+					<dd><b>.</b><a href="">取消订单记录</a></dd>
+					<dd><b>.</b><a href="">我的投诉</a></dd>
+				</dl>
+			</div>
+		</div>
+		<!-- 左侧导航菜单 end -->
+
+		<!-- 右侧内容区域 start -->
+		<div class="content fl ml10">
+			<div class="order_hd">
+				<h3>我的订单</h3>
+			</div>
+
+			<div class="order_bd mt10">
+				<table class="orders">
+					<thead>
+						<tr>
+							<th width="10%">订单号</th>
+							<th width="10%">收货人</th>
+							<th width="20%">订单金额</th>
+							<th width="20%">下单时间</th>
+							<th width="10%">订单状态</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+                        <{volist name='order' id='vo'}>
+                            <tr>
+                                <td><a href=""><{$vo.order_sn}></a></td>
+                                <td><{$vo.people}></td>
+                                <td>￥<{$vo.money}> <{eq name='$vo.pay' value='1'}>货到付款<{else}>支付宝<{/eq}></td>
+                                <td><{$vo.addtime|date='Y-m-d H:i:s',###}></td>
+                                <td>
+                                    <{if condition='$vo.status eq 1'}>
+                                    审核中
+                                    <{elseif condition='$vo.status eq 0'}>
+                                    下单
+                                    <{elseif condition='$vo.status eq 2'}>
+                                    已发货
+                                    <{elseif condition='$vo.status eq 4'}>
+                                    已收货
+                                    <{elseif condition='$vo.status eq 5'}>
+                                    退款中
+                                    <{elseif condition='$vo.status eq 6'}>
+                                    同意退款
+                                    <{elseif condition='$vo.status eq 7'}>
+                                    退货中
+                                    <{elseif condition='$vo.status eq 9'}>
+                                    已退款
+                                    <{elseif condition='($vo.is_cancel eq 1) and ($vo.pay eq 0) and ($vo.status eq 3)'}>
+                                    订单已取消
+                                    <{/if}>
+                                </td>
+                                <td>
+                                    <{if condition='($vo.pay eq 2) and ($vo.pay_status eq 0)'}>
+                                        <a href="">继续支付</a>
+                                        <a href="javascript:;" class="cancel" data-id="<{$vo['id']}>">取消订单</a>
+                                        <{elseif condition='$vo.status eq 2'}>
+                                        <a href="<{:url('index/order/express','id='.$vo['id'])}>">查看物流</a>
+                                        <{elseif condition='($vo.pay_status eq 1) and ($vo.status eq 0)'}>
+                                        <a href="">等待发货</a>
+                                        <{elseif condition='($vo.pay_status eq 1) and ($vo.status eq 4)'}>
+                                        <a href="javascript:;" class="re_goods" data-id="<{$vo['id']}>">申请退货退款</a>
+                                        <{elseif condition='($vo.pay_status eq 1) and ($vo.status eq 5)'}>
+                                        <a href="">退货退款中</a>
+                                        <{elseif condition='$vo.pay eq 1'}>
+                                        <a href="javascript:;" class="cancel" data-id="<{$vo['id']}>">取消订单</a>
+                                        <{elseif condition='($vo.is_cancel eq 1) and ($vo.pay eq 0)'}>
+                                        <a href="javascript:;">已取消</a>
+                                        <a href="javascript:;">删除订单</a>
+                                        <{elseif condition='($vo.is_return eq 1) and ($vo.status eq 6)'}>
+                                        <a href="javascript:;" class="send_goods" data-id="<{$vo['id']}>">退回商品</a>
+                                        <{elseif condition='($vo.is_return eq 1) and ($vo.status eq 7)'}>
+                                        <a href="">退货中</a>
+                                        <a href="">查看订单</a>
+                                        <{elseif condition='($vo.is_return eq 1) and ($vo.status eq 9)'}>
+                                        已退款
+                                    <{/if}>
+                                </td>
+                            </tr>
+                        <{/volist}>
+					</tbody> 
+				</table>
+			</div>
+        </div>
+		<!-- 右侧内容区域 end -->
+	</div>
+	<!-- 页面主体 end-->
+
+	<div style="clear:both;"></div>
+<{include file='public/footer'}>
+	<!-- 底部版权 end -->
+</body>
+</html>
+<script>
+    $(function(){
+        //取消订单
+        $('.cancel').click(function(){
+            var id = $(this).attr('data-id');
+            layer.confirm('确定取消订单吗', {
+                btn: ['确定','点错了'] //按钮
+                }, function(){
+                    // console.log(id)
+                    $.ajax({
+                        url:"<{:url('index/order/cancel')}>",
+                        type:'get',
+                        data:{
+                            id:id
+                        },
+                        success:function(res){
+                            console.log(res);
+
+                        }
+                    })
+                    parent.location.reload();
+                    layer.msg('订单已取消', {icon: 1});
+                }, function(){
+                layer.msg('点错了', {
+                    time: 2000, //20s后自动关闭
+                    
+                });
+            });
+        })
+
+        //申请退货退款
+        $('.re_goods').click(function(){
+            var id = $(this).attr('data-id');
+            layer.confirm('确定取消订单吗', {
+                btn: ['确定','点错了'] //按钮
+                }, function(){
+                    // console.log(id)
+                    $.ajax({
+                        url:"<{:url('index/order/reGoods')}>",
+                        type:'get',
+                        data:{
+                            id:id
+                        },
+                        success:function(res){
+                            console.log(res);
+                        }
+                    })
+                    parent.location.reload();//重载页面
+                    layer.msg('已申请退款退货', {icon: 1});
+                }, function(){
+                layer.msg('点错了', {
+                    time: 2000, //20s后自动关闭
+                    
+                });
+            });
+        })
+
+        // 退回商品
+        // send_goods
+        $('.send_goods').click(function(){
+            var id = $(this).attr('data-id');
+            layer.confirm('跳转填写快递页面表单', {
+                btn: ['确定','点错了'] //按钮
+                }, function(){
+                    // console.log(id)
+                    $.ajax({
+                        url:"<{:url('index/order/sendGoods')}>",
+                        type:'get',
+                        data:{
+                            id:id
+                        },
+                        success:function(res){
+                            console.log(res);
+                        }
+                    })
+                    parent.location.reload();//重载页面
+                    layer.msg('已完成', {icon: 1});
+                }, function(){
+                layer.msg('点错了', {
+                    time: 2000, //20s后自动关闭
+                    
+                });
+            });
+        })
+
+
+
+
+
+
+
+
+
+    })
+</script>
